@@ -2,9 +2,24 @@ from fastapi import FastAPI, HTTPException, Depends, Request
 from starlette.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from . import models, schemas, database, utils
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=database.engine)
+
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,         # или ["*"] — для разработки
+    allow_credentials=True,
+    allow_methods=["*"],           # OPTIONS, POST, GET …
+    allow_headers=["*"],
+)
 
 @app.post("/shorten", response_model=schemas.LinkOut)
 def create_short_link(link: schemas.LinkIn, db: Session = Depends(database.get_db)):

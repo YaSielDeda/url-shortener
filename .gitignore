@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+*.log
+*.env
+.env.*
+instance/
+*.egg-info/
+dist/
+build/
+
+# venv
+venv/
+env/
+ENV/
+.venv/
+
+# VSCode и IDE
+.vscode/
+.idea/
+*.swp
+
+# Docker
+*.pid
+*.tar
+*.bak
+
+# React
+frontend/app/node_modules/
+frontend/app/.next/
+frontend/app/build/
+frontend/app/.env
+frontend/app/.env.*
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
