@@ -15,6 +15,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
+    allow_origin_regex=r"^https://url-shortener-frontend-[a-z0-9-]+\.us-central1\.run\.app$",
     allow_origins=origins,         # или ["*"] — для разработки
     allow_credentials=True,
     allow_methods=["*"],           # OPTIONS, POST, GET …
