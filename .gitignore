@@ -42,7 +42,7 @@ frontend/app/.env.*
 Thumbs.db
 
 # terraform
-.terraform/
+infra/.terraform/
 *.tfstate
 *.tfstate.backup
 *.tfstate.*
