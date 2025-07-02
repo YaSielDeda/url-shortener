@@ -41,9 +41,8 @@ frontend/app/.env.*
 .DS_Store
 Thumbs.db
 
-# terraform
-infra/.terraform/
-*.tfstate
+**/.terraform/
+.tfstate
 *.tfstate.backup
 *.tfstate.*
 .terraform.lock.hcl
