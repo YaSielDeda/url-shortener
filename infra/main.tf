@@ -23,7 +23,7 @@ resource "google_cloud_run_service" "backend" {
         image = "us-central1-docker.pkg.dev/prod-451318/url-shortener/shortener-backend:0.0.2"
         env {
           name  = "DATABASE_URL"
-          value = "postgresql://postgres.xqvdzakecccftfwwzuhy:oftFVyx0b56drt4T@aws-0-eu-central-1.pooler.supabase.com:6543/postgres"
+          value = "postgresql://postgres.oldname:oldpass@aws-0-eu-central-1.pooler.supabase.com:6543/postgres"
         }
       }
     }
