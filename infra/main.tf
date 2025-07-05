@@ -22,8 +22,13 @@ resource "google_cloud_run_service" "backend" {
       containers {
         image = "us-central1-docker.pkg.dev/prod-451318/url-shortener/shortener-backend:0.0.2"
         env {
-          name  = "DATABASE_URL"
-          value = "postgresql://postgres.oldname:oldpass@aws-0-eu-central-1.pooler.supabase.com:6543/postgres"
+          name = "DATABASE_URL"
+          value_from {
+            secret_key_ref {
+              name = "DATABASE_URL"
+              key  = "latest"
+            }
+          }
         }
       }
     }
@@ -89,4 +94,29 @@ resource "google_cloud_run_service_iam_member" "noauth" {
 
   role   = "roles/run.invoker"
   member = "allUsers"
+}
+
+# SA for db secret providing 
+resource "google_service_account" "url-shortener-sa" {
+  account_id   = "url-shortener-sa"
+  display_name = "Backend Service Account"
+}
+
+resource "google_project_iam_member" "url-shortener-sa_run_invoker" {
+  project = var.project
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.url-shortener-sa.email}"
+}
+
+# DB Secret
+resource "google_secret_manager_secret" "db_url" {
+  secret_id = "DATABASE_URL"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "db_url_v1" {
+  secret      = google_secret_manager_secret.db_url.id
+  secret_data = var.db_url
 }
