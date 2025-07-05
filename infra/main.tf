@@ -19,6 +19,7 @@ resource "google_cloud_run_service" "backend" {
 
   template {
     spec {
+      service_account_name = google_service_account.url-shortener-sa.email
       containers {
         image = "us-central1-docker.pkg.dev/prod-451318/url-shortener/shortener-backend:0.0.2"
         env {
@@ -102,10 +103,10 @@ resource "google_service_account" "url-shortener-sa" {
   display_name = "Backend Service Account"
 }
 
-resource "google_project_iam_member" "url-shortener-sa_run_invoker" {
-  project = var.project
-  role    = "roles/secretmanager.secretAccessor"
-  member  = "serviceAccount:${google_service_account.url-shortener-sa.email}"
+resource "google_secret_manager_secret_iam_member" "db_url_reader" {
+  secret_id = google_secret_manager_secret.db_url.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.url-shortener-sa.email}"
 }
 
 # DB Secret
