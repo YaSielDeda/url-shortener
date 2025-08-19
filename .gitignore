@@ -42,9 +42,8 @@ frontend/app/.env.*
 Thumbs.db
 
 **/.terraform/
-.tfstate
 *.tfstate.backup
-*.tfstate.*
+*.tfstate
 .terraform.lock.hcl
 crash.log
 *.tfvars

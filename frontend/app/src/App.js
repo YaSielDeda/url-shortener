@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { shortenUrl } from "./api";
+import { BASE_URL } from "./api";
 
 function App() {
   const [url, setUrl] = useState("");
@@ -9,7 +10,7 @@ function App() {
     e.preventDefault();
     try {
       const data = await shortenUrl(url);
-      setShortUrl(`http://localhost:8080/${data.short_id}`);
+      setShortUrl(`${BASE_URL}/${data.short_id}`);
     } catch (err) {
       alert("Ошибка при сокращении ссылки");
     }

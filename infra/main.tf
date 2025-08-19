@@ -21,7 +21,7 @@ resource "google_cloud_run_service" "backend" {
     spec {
       service_account_name = google_service_account.url-shortener-sa.email
       containers {
-        image = "us-central1-docker.pkg.dev/prod-451318/url-shortener/shortener-backend:0.0.2"
+        image = "us-central1-docker.pkg.dev/prod-451318/url-shortener/shortener-backend:0.0.3"
         env {
           name = "DATABASE_URL"
           value_from {
@@ -55,7 +55,7 @@ resource "google_cloud_run_service" "url-shortener-frontend" {
         ports {
           container_port = 80
         }
-        image = "us-central1-docker.pkg.dev/prod-451318/url-shortener/shortener-frontend:0.0.3"
+        image = "us-central1-docker.pkg.dev/prod-451318/url-shortener/shortener-frontend:0.0.8"
         env {
           name  = "BACKEND_URL"
           value = google_cloud_run_service.backend.status[0].url
@@ -120,4 +120,31 @@ resource "google_secret_manager_secret" "db_url" {
 resource "google_secret_manager_secret_version" "db_url_v1" {
   secret      = google_secret_manager_secret.db_url.id
   secret_data = var.db_url
+}
+
+# Domain mapping
+resource "google_cloud_run_domain_mapping" "backend_domain" {
+  location = var.region
+  name     = "api.url-shortener.42web.io"
+
+  metadata {
+    namespace = var.project
+  }
+
+  spec {
+    route_name = google_cloud_run_service.backend.name
+  }
+}
+
+resource "google_cloud_run_domain_mapping" "frontend_domain" {
+  location = var.region
+  name     = "app.url-shortener.42web.io"
+
+  metadata {
+    namespace = var.project
+  }
+
+  spec {
+    route_name = google_cloud_run_service.url-shortener-frontend.name
+  }
 }

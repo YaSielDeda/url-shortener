@@ -1,5 +1,5 @@
-/* global __env */ 
-const BASE_URL = (window.__env && window.__env.BACKEND_URL) || "http://localhost:8080";
+/* global __env */
+export const BASE_URL = "https://api.url-shortener.42web.io";
 
 export async function shortenUrl(originalUrl) {
   const response = await fetch(`${BASE_URL}/shorten`, {

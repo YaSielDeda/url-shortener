@@ -11,6 +11,7 @@ models.Base.metadata.create_all(bind=database.engine)
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://app.url-shortener.42web.io"
 ]
 
 app.add_middleware(
