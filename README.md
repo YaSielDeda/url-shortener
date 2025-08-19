@@ -34,8 +34,8 @@ To deploy this project, you need:
 1. Clone the repository
 
 2. Deploy with Terraform:
-   terraform init
-   terraform apply
+   - terraform init
+   - terraform apply
 
 3. The services will be deployed at:
    - **Frontend:** https://app.url-shortener.42web.io  
